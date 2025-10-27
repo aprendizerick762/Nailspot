@@ -1,0 +1,160 @@
+/* ===== RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #f8e8f1, #f4c8dc);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== NAVEGAÇÃO ===== */
+.navbar {
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo img {
+    width: 32px;
+    height: 32px;
+}
+
+.nome {
+    color: #e26ca5;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #555;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+nav a:hover, 
+nav a.active {
+  color: #e26ca5;
+}
+
+/* ===== CONTEÚDO PRINCIPAL ===== */
+.servicos-container {
+  flex: 1;
+  max-width: 900px;
+  margin: 40px auto;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.servicos-container h1 {
+  color: #e26ca5;
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  color: #555;
+  margin-bottom: 25px;
+}
+
+/* ===== LISTA DE SERVIÇOS ===== */
+.lista-servicos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.card-servico {
+  background-color: #fdf6fa;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: left;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  border-left: 6px solid #e26ca5;
+}
+
+.card-servico h3 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.card-servico p {
+  color: #555;
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+}
+
+.preco {
+  color: #e26ca5;
+  font-weight: 600;
+  font-size: 1rem;
+  display: inline-block;
+  margin-bottom: 15px;
+}
+
+/* ===== BOTÕES ===== */
+.botoes {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.botoes button {
+  flex: 1;
+  background-color: #e26ca5;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.botoes button:hover {
+  background-color: #d45c98;
+}
+
+.btn-contato {
+  background-color: #f4b5d0;
+}
+
+.btn-contato:hover {
+  background-color: #e49cbf;
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 600px) {
+  .servicos-container {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  .botoes {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nailspot | Selecione sua categoria</title>
+    <link rel="stylesheet" href="css/categoria.css">
+</head>
+<body>
+    <header class="topo">
+        <div class="logo">
+            <img src="img/LogoNailspot+.png" alt="Logo NailSpot">
+            <span class="nome">NailSpot</span>
+        </div>
+    </header>
+
+    <main class="conteudo">
+        <h1>Selecione sua categoria</h1>
+        <p>Escolha o tipo de usuário para continuar seu cadastro</p>
+
+        <form class="form-categoria" onsubmit="return redirecionar(event)">
+            <label>
+                <input type="radio" name="tipo" value="pessoa" checked>
+                <span>👩 Pessoa Física</span>
+            </label>
+            <label>
+                <input type="radio" name="tipo" value="empresa">
+                <span>🏢 Empresa</span>
+            </label>
+            <div class="botoes">
+                <button type="submit" class="botao rosa">OK</button>
+                <a href="home.html" class="botao branco">Voltar</a>
+            </div>
+        </form>
+    </main>
+
+    <footer class="rodape">
+        <p>Comece sua jornada de beleza conosco</p>
+    </footer>
+    <script>
+        function redirecionar(event) {
+            event.preventDefault();
+            window.location.href = "cadastro_cliente.html";
+        }
+    </script>
+</body>
+</html>

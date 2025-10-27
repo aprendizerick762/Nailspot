@@ -1,0 +1,135 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: linear-gradient(to bottom right, #fff6fa, #f7f8ff);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.topo {
+    background-color: #fdd7e2;
+    padding: 10px 30px;
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo img {
+    width: 32px;
+    height: 32px;
+}
+
+.nome {
+    color: #e26ca5;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.conteudo {
+    flex: 1;
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.conteudo h1 {
+    font-size: 2rem;
+    color: #333;
+}
+
+.conteudo p {
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.form-categoria {
+    display: inline-block;
+    background: #fff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    min-width: 280px;
+}
+
+.form-categoria label {
+    display: block;
+    border: 1.5px solid #f9a9cc;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    color: #555;
+    transition: all 0.3s;
+}
+
+.form-categoria input {
+    margin-right: 10px;
+}
+
+.form-categoria label:hover {
+    background-color: #fce4ef;
+}
+
+.botoes {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.botao {
+    width: 250px;
+    padding: 14px 0;
+    border-radius: 30px;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+.botao.branco {
+    background-color: #fff;
+    border: 2px solid #f9a9cc;
+    color: #333;
+}
+
+.botao.branco:hover {
+    background-color: #fce4ef;
+}
+
+.botao.rosa {
+    background-color: #f9a9cc;
+    color: #fff;
+    border: none;
+}
+
+.botao.rosa:hover {
+    background-color: #f28bb3;
+}
+
+.rodape {
+    background-color: #fdd7e2;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 0.9rem;
+    color: #666;
+}
+@media (max-width: 600px) {
+    .conteudo h1 {
+        font-size: 1.8rem;
+    }
+
+    .botao {
+        width: 200px;
+    }
+}

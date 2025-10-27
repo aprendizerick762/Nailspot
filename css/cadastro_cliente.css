@@ -1,0 +1,156 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: linear-gradient(to bottom right, #fff6fa, #f7f8ff);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.topo {
+    background-color: #fdd7e2;
+    padding: 10px 30px;
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo img {
+    width: 32px;
+    height: 32px;
+}
+
+.nome {
+    color: #e26ca5;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.conteudo {
+    flex: 1;
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.conteudo h1 {
+    color: #333;
+    font-size: 2rem;
+}
+
+.conteudo p {
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.formulario {
+    background: #fff;
+    margin: 0 auto;
+    padding: 30px;
+    border-radius: 16px;
+    max-width: 500px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    text-align: left;
+}
+
+label {
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 5px;
+    display: block;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1.5px solid #ddd;
+    border-radius: 10px;
+    outline: none;
+    transition: border 0.3s;
+}
+
+input:focus {
+    border-color: #f9a9cc;
+}
+
+.regras-senha {
+    background-color: #fef1f7;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.regras-senha p {
+    font-weight: 500;
+    color: #666;
+}
+
+.regras-senha ul {
+    margin-left: 15px;
+    color: #888;
+}
+
+.botoes {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn {
+    width: 48%;
+    padding: 12px 0;
+    border-radius: 25px;
+    font-weight: 600;
+    border: none;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+}
+
+.btn.rosa {
+    background-color: #f9a9cc;
+    color: #fff;
+}
+
+.btn.rosa:hover {
+    background-color: #f28bb3;
+}
+
+.btn.branco {
+    background-color: #fff;
+    border: 2px solid #f9a9cc;
+    color: #333;
+}
+
+.btn.branco:hover {
+    background-color: #fce4ef;
+}
+
+
+.rodape {
+    background-color: #fdd7e2;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 0.9rem;
+    color: #666;
+}
+@media (max-width: 600px) {
+    .conteudo h1 {
+        font-size: 1.8rem;
+    }
+
+    .botao {
+        width: 200px;
+    }
+}
