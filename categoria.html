@@ -21,11 +21,11 @@
         <form class="form-categoria" onsubmit="return redirecionar(event)">
             <label>
                 <input type="radio" name="tipo" value="pessoa" checked>
-                <span>👩 Pessoa Física</span>
+                <span>Pessoa Física</span>
             </label>
             <label>
                 <input type="radio" name="tipo" value="empresa">
-                <span>🏢 Empresa</span>
+                <span>Empresa</span>
             </label>
             <div class="botoes">
                 <button type="submit" class="botao rosa">OK</button>
@@ -41,6 +41,7 @@
         function redirecionar(event) {
             event.preventDefault();
             window.location.href = "cadastro_cliente.html";
+            window.location.href = "cadastro_empresa.html";
         }
     </script>
 </body>

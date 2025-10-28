@@ -1,4 +1,4 @@
-/* ===== RESET ===== */
+
 * {
   margin: 0;
   padding: 0;
@@ -13,7 +13,7 @@ body {
   flex-direction: column;
 }
 
-/* ===== NAVEGAÇÃO ===== */
+
 .navbar {
   background-color: #fff;
   display: flex;
@@ -117,6 +117,7 @@ nav a.active {
 }
 
 /* ===== BOTÕES ===== */
+/*
 .botoes {
   display: flex;
   justify-content: space-between;
@@ -134,18 +135,54 @@ nav a.active {
   cursor: pointer;
   transition: background 0.3s ease;
 }
+*/
 
-.botoes button:hover {
-  background-color: #d45c98;
+.botoes {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    width: 250px;
 }
 
-.btn-contato {
-  background-color: #f4b5d0;
+.botao {
+    width: 250px;
+    padding: 14px 0;
+    border-radius: 30px;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s;
 }
 
-.btn-contato:hover {
-  background-color: #e49cbf;
+.botao.rosa {
+    background-color: #f9a9cc;
+    color: #fff;
+    border: none;
 }
+
+.botao.rosa:hover {
+    background-color: #f28bb3;
+}
+
+.botao.branco {
+    background-color: #fff;
+    border: 2px solid #f9a9cc;
+    color: #333;
+}
+
+.botao.branco:hover {
+    background-color: #fce4ef;
+}
+
+.rodape {
+    background-color: #fff;
+    text-align: center;
+    padding: 30px;
+    font-size: 0.9rem;
+    color: #666;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
 
 /* ===== RESPONSIVIDADE ===== */
 @media (max-width: 600px) {
