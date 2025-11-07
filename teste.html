@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evo Calendar - Implementação</title>
+    
+    <!-- CSS do Evo Calendar -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.3/evo-calendar/css/evo-calendar.min.css">
+    
+    <style>
+
+  
+    </style>
+</head>
+<body>
+    <h1>Implementação do Evo Calendar</h1>
+    
+        <!-- O calendário será inserido aqui -->
+        <div id="evoCalendar"></div>
+
+    <!-- jQuery (necessário para o Evo Calendar) -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+    
+    <!-- JavaScript do Evo Calendar -->
+    <script src="https://cdn.jsdelivr.net/npm/evo-calendar@1.1.3/evo-calendar/js/evo-calendar.min.js"></script>
+    
+    <script>
+        // Inicialização do calendário
+        $(document).ready(function() {
+            $('#evoCalendar').evoCalendar({
+                theme: 'Default',
+                format: 'mm/dd/yyyy',
+                titleFormat: 'MM yyyy',
+                eventHeaderFormat: 'MM d, yyyy',
+                firstDayOfWeek: 0,
+                language: 'pt',
+                todayHighlight: true,
+                sidebarDisplayDefault: false,
+                sidebarToggler: true,
+                eventListToggler: true
+            });
+            
+            // Adicionar eventos de exemplo
+            $('#evoCalendar').evoCalendar('addCalendarEvent', [
+                {
+                    id: 'event1',
+                    name: 'Reunião de Equipe',
+                    date: new Date().toLocaleDateString('en-US'),
+                    type: 'meeting',
+                    description: 'Reunião semanal para alinhamento de projetos'
+                },
+                {
+                    id: 'event2',
+                    name: 'Aniversário do João',
+                    date: new Date(new Date().setDate(new Date().getDate() + 5)).toLocaleDateString('en-US'),
+                    type: 'birthday',
+                    description: 'Comemoração do aniversário do João'
+                },
+                {
+                    id: 'event3',
+                    name: 'Entrega de Projeto',
+                    date: new Date(new Date().setDate(new Date().getDate() + 10)).toLocaleDateString('en-US'),
+                    type: 'event',
+                    description: 'Data limite para entrega do projeto X'
+                }
+            ]);
+        });
+    </script>
+
+</body>
+</html>

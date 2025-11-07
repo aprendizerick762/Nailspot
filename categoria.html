@@ -5,16 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nailspot | Selecione sua categoria</title>
     <link rel="stylesheet" href="css/categoria.css">
+    <link rel="shortcut icon" href="img/LogoNailspotofc.png">
 </head>
 <body>
-    <header class="topo">
+    <header class="navbar">
         <div class="logo">
-            <img src="img/LogoNailspot+.png" alt="Logo NailSpot">
-            <span class="nome">NailSpot</span>
+            <img src="img/LogoNailspotofc.png" alt="Logo NailSpot">
+            <span class="nome-logo">NailSpot</span>
         </div>
     </header>
 
-    <main class="conteudo">
+    <main class="container">
         <h1>Selecione sua categoria</h1>
         <p>Escolha o tipo de usuário para continuar seu cadastro</p>
 
@@ -29,7 +30,7 @@
             </label>
             <div class="botoes">
                 <button type="submit" class="botao rosa">OK</button>
-                <a href="home.html" class="botao branco">Voltar</a>
+                <a href="index.html" class="botao branco">Voltar</a>
             </div>
         </form>
     </main>
@@ -40,8 +41,8 @@
     <script>
         function redirecionar(event) {
             event.preventDefault();
-            window.location.href = "cadastro_cliente.html";
-            window.location.href = "cadastro_empresa.html";
+            window.location.href = "cliente-cadastro.html";
+            window.location.href = "manicure-cadastro.html";
         }
     </script>
 </body>
