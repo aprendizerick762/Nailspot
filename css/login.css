@@ -164,15 +164,6 @@ body {
     color: #e26ca5;
 }
 
-.rodape {
-    background-color: #fdd7e2;
-    text-align: center;
-    padding: 20px 0;
-    font-size: 0.9rem;
-    color: #666;
-}
-
-
 /* Responsividade */
 @media (max-width: 480px) {
     .card {
