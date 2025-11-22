@@ -18,27 +18,27 @@
         <h1>Cadastro de Manicure</h1>
         <p>Cadastre seu salão e comece a receber agendamentos de clientes</p>
 
-        <form class="formulario">
+        <form action="php/empresa-criar.php" method="POST" class="formulario">
             <label for="name">Nome / Razão Social</label>
-            <input type="text" id="name" name="user_name" placeholder="Ex:. Maria Silva Santos" required>
+            <input type="text" id="nome" name="nome" placeholder="Ex:. Maria Silva Santos" required>
 
             <label for="email">E-mail</label>
-            <input type="email" id="email" name="user_email" placeholder="Ex:. meuemail@gmail.com" required>
+            <input type="email" id="email" name="email" placeholder="Ex:. meuemail@gmail.com" required>
 
             <label for="cpf_cnpj">CPF / CNPJ</label>
-            <input type="text" id="cpf_cnpj" name="user_cpf_cnpj" placeholder="00.000.000/0000-00" required>
+            <input type="text" id="cpf_cnpj" name="cpf_cnpj" placeholder="00.000.000/0000-00" required>
 
             <label for="cep">CEP</label>
-            <input type="text" id="cep" name="user_cep" placeholder="00000-000" pattern="\d{5}-?\d{3}" required>
+            <input type="text" id="cep" name="cep" placeholder="00000-000" pattern="\d{5}-?\d{3}" required>
 
             <label for=telefone>Telefone</label>
-            <input type="tel" id="telefone" name="user_telefone" placeholder="(00)00000-000" pattern="\(\d{2}\)\s?\d{4,5}-\d{4}" required>
+            <input type="text" id="telefone" name="telefone" placeholder="(00)00000-000" pattern="\(\d{2}\)\s?\d{4,5}-\d{4}" required>
 
             <label for="senha">Senha</label>
-            <input type="password" id="senha" name="user_senha" placeholder="********" required>
+            <input type="password" id="senha" name="senha" placeholder="********" required>
 
             <label for="confirm_senha">Confirmar Senha</label>
-            <input type="password" id="confirm_senha" name="user_confirm_senha" placeholder="********" required>
+            <input type="password" id="confirm_senha" name="confirm_senha" placeholder="********" required>
 
             <div class="regras-senha">
                 <p>Sua senha deve conter:</p>
@@ -59,32 +59,40 @@
     </main>
     
     <script>
-        const form = document.querySelector(".formulario");
-        const senha = document.getElementById("senha");
-        const confirmar = document.getElementById("confirm_senha");
+    const form = document.querySelector("formulario");
+    const senha = document.getElementById("senha");
+    const confirmar = document.getElementById("confirm_senha");
 
-        form.addEventListener("submit", function(evento){
-            evento.preventDefault();
+    // Verifica se os elementos foram encontrados
+    if (!senha || !confirmar) {
+        console.error("Campos de senha não encontrados!");
+    }
 
-            const valor = senha.value;
-            const confirmar_valor = confirmar.value;
-            const senhaForte = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@!#$%_-]).{8,}$/;
+    form.addEventListener("submit", function(evento){
+        evento.preventDefault();
 
-            if(!senhaForte.test(valor)){
-                alert("A senha não atende aos requisitos");
-                return;
-            }
+        const valor = senha.value;
+        const confirmar_valor = confirmar.value;
+        const senhaForte = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@!#$%_-]).{8,}$/;
 
-            if(valor !== confirmar_valor){
-                alert("As senhas não coicidem");
-                return;
-            }
+        // Validação da força da senha
+        if(!senhaForte.test(valor)){
+            alert("A senha não atende aos requisitos:\n- Mínimo 8 caracteres\n- Letra maiúscula\n- Letra minúscula\n- Número\n- Caractere especial (@!#$%)");
+            return;
+        }
 
-            alert("Cadastro realizado com sucesso");
+        // Validação se as senhas coincidem
+        if(valor !== confirmar_valor){
+            alert("As senhas não coincidem!");
+            return;
+        }
 
-            form.submit();
-        });
-    </script>
+        alert("Cadastro realizado com sucesso!");
+
+        // Se todas as validações passarem, envia o formulário
+        form.submit();
+    });
+</script>
 
     <footer class="rodape">
         <p>Estamos felizes em ter você conosco!</p>

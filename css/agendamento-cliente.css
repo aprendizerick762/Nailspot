@@ -1,0 +1,207 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: linear-gradient(to bottom right, #ffe6f2, #f8d6ff);
+  color: #333;
+}
+
+/* HEADER */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo img {
+  height: 30px;
+}
+.brand {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #e91e63;
+}
+
+
+nav a {
+  margin-left: 20px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+nav a:hover,
+nav a.active {
+  color: #e91e63;
+}
+
+/* CONTEÚDO PRINCIPAL */
+main {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 85vh;
+  padding: 2rem 1rem;
+}
+
+.container-agendamento {
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.05);
+  padding: 2rem;
+  width: 100%;
+  max-width: 650px;
+}
+
+h2 {
+  margin-bottom: 0.5rem;
+  color: #222;
+}
+
+p.subtitle {
+  margin-bottom: 1.5rem;
+  color: #666;
+}
+
+h3 {
+  margin: 1.5rem 0 0.5rem;
+  color: #333;
+}
+
+/* CARDS PROFISSIONAIS */
+.profissionais {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.profissional {
+  border: 1px solid #f3b4d4;
+  border-radius: 10px;
+  padding: 0.8rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profissional:hover {
+  background-color: #fff3fa;
+}
+
+/* SERVIÇOS */
+.servicos {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.servico {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #f3b4d4;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+}
+
+/* INPUTS */
+input[type="text"],
+input[type="date"],
+input[type="email"],
+input[type="tel"] {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-top: 5px;
+  font-size: 0.95rem;
+}
+
+input::placeholder {
+  color: #aaa;
+}
+
+/* HORÁRIOS */
+.horarios {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 0.5rem;
+}
+
+.horarios button {
+  border: 1px solid #ccc;
+  background: #fff;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.horarios button:hover {
+  background-color: #ffe6f2;
+  border-color: #f48fb1;
+}
+
+.horarios button.ativo {
+  background-color: #ff80bf;
+  color: white;
+  border-color: #ff4da6;
+  font-weight: 500;
+}
+
+/* BOTÕES FINAIS */
+.acoes {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+.acoes a {
+  text-decoration: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: background 0.3s;
+}
+
+.cancelar {
+  background: #eee;
+  color: #555;
+}
+
+.cancelar:hover {
+  background: #ddd;
+}
+
+.confirmar {
+  background: #e91e63;
+  color: white;
+}
+
+.confirmar:hover {
+  background: #d81b60;
+}
+
+@media (max-width: 768px) {
+  .container-agendamento {
+    padding: 1.5rem;
+    max-width: 90%;
+  }
+}

@@ -1,0 +1,259 @@
+/* RESET E BASE */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #f8e8f1, #f4c8dc);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* CABEÇALHO */
+.navbar {
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 60px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo img {
+  width: 32px;
+  height: 32px;
+}
+
+.nome-logo {
+  color: #e26ca5;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #555;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+nav a:hover,
+nav a.ativo {
+  color: #e26ca5;
+}
+
+/* CONTEÚDO PRINCIPAL */
+main.conteudo {
+  flex: 1;
+  padding: 40px 80px;
+}
+
+h1 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+h2 {
+  color: #e26ca5;
+  margin-bottom: 15px;
+}
+
+/* CARD */
+.card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 25px 30px;
+  margin-bottom: 30px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: #444;
+  margin-bottom: 6px;
+}
+
+.form-group input {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+}
+
+.form-group input:focus {
+  border-color: #e26ca5;
+}
+
+/* BOTÕES */
+.btn-principal {
+  background-color: #e26ca5;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-principal:hover {
+  background-color: #d05890;
+}
+
+.btn-excluir {
+  background-color: #ff7070;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-excluir:hover {
+  background-color: #e05454;
+}
+
+/* TABELA */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+table th,
+table td {
+  border-bottom: 1px solid #eee;
+  padding: 10px;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+table th {
+  background-color: #fdf1f6;
+  color: #e26ca5;
+}
+
+/* EXEMPLOS */
+.exemplos ul {
+  list-style: none;
+  margin-top: 10px;
+}
+
+.exemplos li {
+  background-color: #fff;
+  padding: 10px 15px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* RODAPÉ */
+.rodape {
+  background-color: #fff;
+  text-align: center;
+  padding: 25px 0;
+  font-size: 0.9rem;
+  color: #666;
+  border-top: 1px solid #ccc;
+}
+
+/* ---------- ALERTAS E CONFIRMAÇÕES ---------- */
+
+/* Mensagem de horário salvo */
+.alerta {
+  position: fixed;
+  bottom: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #4caf50;
+  color: #fff;
+  padding: 12px 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transition: all 0.5s ease;
+  font-weight: 500;
+  z-index: 1000;
+}
+
+.alerta.mostrar {
+  bottom: 20px;
+  opacity: 1;
+}
+
+/* Caixa de confirmação */
+.confirmacao {
+  position: fixed;
+  bottom: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  padding: 25px 30px;
+  text-align: center;
+  width: 300px;
+  transition: all 0.5s ease;
+  z-index: 1100;
+  opacity: 0;
+}
+
+.confirmacao.mostrar {
+  bottom: 30%;
+  opacity: 1;
+}
+
+.confirmacao p {
+  margin-bottom: 20px;
+  color: #444;
+  font-weight: 500;
+}
+
+.btn-confirmar {
+  background-color: #e26ca5;
+  color: #fff;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 8px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.btn-cancelar {
+  background-color: #ccc;
+  color: #333;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-confirmar:hover {
+  background-color: #d05890;
+}
+
+.btn-cancelar:hover {
+  background-color: #b3b3b3;
+}

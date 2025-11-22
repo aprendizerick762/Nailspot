@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Novo Agendamento - NailSpot</title>
+  <link rel="stylesheet" href="css/agendamento-cliente.css">
+  <link rel="shortcut icon" href="img/LogoNailspotofc.png">
+</head>
+<body>
+  <header>
+    <div class="logo">
+  <img src="img/LogoNailspot+.png" alt="Logo NailSpot">
+  <span class="brand">NailSpot</span>
+</div>
+    <nav>
+      <a href="http://127.0.0.1:5500/cliente-servicos.html">Serviços</a>
+      <a href="http://127.0.0.1:5500/cliente-agenda.html" class="active">Agenda</a>
+      <a href="http://127.0.0.1:5500/cliente-perfil.html">Perfil</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="container-agendamento">
+      <h2>Novo Agendamento</h2>
+      <p class="subtitle">Preencha os dados para agendar seu serviço</p>
+
+      <h3>Escolha a Profissional</h3>
+      <div class="profissionais">
+        <label class="profissional">
+          <input type="radio" name="profissional">
+          <div>
+            <strong>Ana Silva</strong><br>
+            <span>Manicure e Pedicure</span>
+          </div>
+        </label>
+
+        <label class="profissional">
+          <input type="radio" name="profissional">
+          <div>
+            <strong>Maria Santos</strong><br>
+            <span>Manicure</span>
+          </div>
+        </label>
+
+        <label class="profissional">
+          <input type="radio" name="profissional">
+          <div>
+            <strong>Julia Oliveira</strong><br>
+            <span>Pedicure</span>
+          </div>
+        </label>
+      </div>
+
+      <h3>Selecione o(s) Serviço(s)</h3>
+      <div class="servicos">
+        <label class="servico">
+          <div>
+            <input type="checkbox"> Manicure
+          </div>
+          <span>R$ 35,00</span>
+        </label>
+
+        <label class="servico">
+          <div>
+            <input type="checkbox"> Pedicure
+          </div>
+          <span>R$ 45,00</span>
+        </label>
+      </div>
+
+      <h3>Data do Agendamento</h3>
+      <input type="date" placeholder="dd/mm/aaaa">
+
+      <h3>Horário Disponível</h3>
+      <div class="horarios">
+        <button>09:00</button>
+        <button>10:00</button>
+        <button>11:00</button>
+        <button>12:00</button>
+        <button>14:00</button>
+        <button>15:00</button>
+        <button>16:00</button>
+        <button>17:00</button>
+      </div>
+
+      <h3>Seus Dados</h3>
+      <input type="text" placeholder="Alexandre">
+      <input type="email" placeholder="exemplo@email.com">
+      <input type="tel" placeholder="(00) 00000-0000">
+
+      <div class="acoes">
+        <a href="http://127.0.0.1:5500/cliente-servicos.html" class="cancelar">Cancelar</a>
+        <a href="confirmar.html" class="confirmar">Confirmar Agendamento</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Seleção de horário interativo
+    const botoes = document.querySelectorAll(".horarios button");
+    botoes.forEach(botao => {
+      botao.addEventListener("click", () => {
+        if (botao.classList.contains("ativo")) {
+          botao.classList.remove("ativo");
+        } else {
+          botoes.forEach(b => b.classList.remove("ativo"));
+          botao.classList.add("ativo");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
