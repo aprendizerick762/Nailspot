@@ -15,9 +15,9 @@
       </div>
     <nav>
       <ul>
-        <li><a href="cliente-servicos.html" class="ativo">Serviços</a></li>
-        <li><a href="cliente-agenda.html">Agenda</a></li>
-        <li><a href="cliente-perfil.html">Perfil</a></li>
+        <li><a href="cliente-servicos.php" class="ativo">Serviços</a></li>
+        <li><a href="cliente-agenda.php">Agenda</a></li>
+        <li><a href="cliente-perfil.php">Perfil</a></li>
       </ul>
     </nav>
   </header>

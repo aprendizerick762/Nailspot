@@ -17,8 +17,8 @@
     </div>
     <nav>
       <ul>
-        <li><a href="#" class="ativo">Dashboard</a></li>
-        <li><a href="#">Perfil</a></li>
+        <li><a href="empresa-dashboard.php" class="ativo">Dashboard</a></li>
+        <li><a href="empresa-perfil.php">Perfil</a></li>
         <li><a href="#">Sair</a></li>
       </ul>
     </nav>

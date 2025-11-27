@@ -39,11 +39,26 @@
         <p>Comece sua jornada de beleza conosco</p>
     </footer>
     <script>
-        function redirecionar(event) {
-            event.preventDefault();
+document.addEventListener('DOMContentLoaded', function () {
+  const form = document.querySelector('.form-categoria');
+  if (!form) return;
 
-            window.location.href = "cliente-cadastro.html";
-        }
-    </script>
+  form.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+
+    const selecionado = form.querySelector('input[name="tipo"]:checked');
+    if (!selecionado) {
+      alert('Selecione uma categoria para continuar!');
+      return;
+    }
+
+    if (selecionado.value === 'pessoa') {
+      window.location.href = 'cliente-cadastro.php';
+    } else {
+      window.location.href = 'manicure-cadastro.php';
+    }
+  });
+});
+</script>
 </body>
 </html>

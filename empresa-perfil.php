@@ -1,3 +1,29 @@
+<?php
+session_start();
+require "php/dbconnect.php";
+require "php/mensagem.php";
+
+// VERIFICAR SE A EMPRESA ESTÁ LOGADA
+if (!isset($_SESSION['empresa_id'])) {
+    header("Location: login.php");
+    exit;
+}
+
+$empresa_id = $_SESSION['empresa_id'];
+
+// BUSCAR INFORMAÇÕES DA EMPRESA
+$sql = "SELECT * FROM empresa WHERE id = $empresa_id LIMIT 1";
+$result = mysqli_query($connect, $sql);
+$empresa = mysqli_fetch_assoc($result);
+
+// SE NÃO ACHAR, O USUÁRIO NÃO DEVERIA ESTAR LOGADO
+if (!$empresa) {
+    $_SESSION['mensagem'] = "Erro: empresa não encontrada!";
+    header("Location: login.php");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -17,8 +43,8 @@
     </div>
     <nav>
       <ul>
-        <li><a href="empresa-dashboard.html">Dashboard</a></li>
-        <li><a href="empresa-perfil.html" class="ativo">Perfil</a></li>
+        <li><a href="empresa-dashboard.php">Dashboard</a></li>
+        <li><a href="empresa-perfil.php" class="ativo">Perfil</a></li>
       </ul>
     </nav>
   </header>
@@ -27,7 +53,7 @@
   <main class="conteudo">
     <section class="card">
       <h2>Dados da Empresa</h2>
-      <form id="form-perfil">
+      <form action="empresa-perfil.php" method="POST" id="form-perfil">
         <div class="form-group">
           <label for="razao">Nome / Razão Social</label>
           <input type="text" id="razao" value="NailSpot Beauty Studio" required>
@@ -96,37 +122,15 @@
 
   <!-- JAVASCRIPT -->
   <script>
-    // Simulação de salvar perfil
-    document.getElementById('form-perfil').addEventListener('submit', function(e) {
-      e.preventDefault();
-      alert('Dados salvos com sucesso! (Simulação visual)');
-    });
+// MOSTRAR MODAL
+document.getElementById('btn-alterar-senha').addEventListener('click', () => {
+    document.getElementById('modal-senha').classList.add('mostrar');
+});
 
-    // Abrir modal de senha
-    document.getElementById('btn-alterar-senha').addEventListener('click', function() {
-      document.getElementById('modal-senha').classList.add('mostrar');
-    });
-
-    // Fechar modal
-    document.getElementById('fechar-modal').addEventListener('click', function() {
-      document.getElementById('modal-senha').classList.remove('mostrar');
-    });
-
-    // Salvar nova senha
-    document.getElementById('form-senha').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const nova = document.getElementById('nova-senha').value;
-      const confirmar = document.getElementById('confirmar-senha').value;
-
-      if (nova !== confirmar) {
-        alert('As senhas não coincidem!');
-        return;
-      }
-
-      alert('Senha alterada com sucesso! (Simulação visual)');
-      document.getElementById('modal-senha').classList.remove('mostrar');
-      this.reset();
-    });
-  </script>
+// FECHAR MODAL
+document.getElementById('fechar-modal').addEventListener('click', () => {
+    document.getElementById('modal-senha').classList.remove('mostrar');
+});
+</script>
 </body>
 </html>
