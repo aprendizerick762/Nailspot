@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -19,9 +19,9 @@
     </div>
     <nav>
       <ul>
-        <li><a href="cliente-servicos.html">Serviços</a></li>
-        <li><a href="cliente-agenda.html" class="ativo">Agenda</a></li>
-        <li><a href="cliente-perfil.html">Perfil</a></li>
+        <li><a href="cliente-servicos.php">Serviços</a></li>
+        <li><a href="cliente-agenda.php" class="ativo">Agenda</a></li>
+        <li><a href="cliente-perfil.php">Perfil</a></li>
       </ul>
     </nav>
   </header>

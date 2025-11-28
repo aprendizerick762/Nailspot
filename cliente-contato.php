@@ -16,9 +16,9 @@
     </div>
     <nav>
       <ul>
-        <li><a href="http://127.0.0.1:5500/cliente-servicos.html" class="ativo">Serviços</a></li>
-        <li><a href="http://127.0.0.1:5500/cliente-agenda.html">Agenda</a></li>
-        <li><a href="http://127.0.0.1:5500/cliente-perfil.html">Perfil</a></li>
+        <li><a href="http://127.0.0.1:5500/cliente-servicos.php" class="ativo">Serviços</a></li>
+        <li><a href="http://127.0.0.1:5500/cliente-agenda.php">Agenda</a></li>
+        <li><a href="http://127.0.0.1:5500/cliente-perfil.php">Perfil</a></li>
       </ul>
     </nav>
     

@@ -3,26 +3,95 @@ session_start();
 require "php/dbconnect.php";
 require "php/mensagem.php";
 
-// VERIFICAR SE A EMPRESA ESTÁ LOGADA
-if (!isset($_SESSION['empresa_id'])) {
+// =======================
+// 1. VERIFICA LOGIN
+// =======================
+if(!isset($_SESSION['cliente_id'])){
+    // Caso não esteja logado, redireciona
     header("Location: login.php");
     exit;
 }
 
-$empresa_id = $_SESSION['empresa_id'];
+$id = $_SESSION['cliente_id'];
 
-// BUSCAR INFORMAÇÕES DA EMPRESA
-$sql = "SELECT * FROM empresa WHERE id = $empresa_id LIMIT 1";
+
+// =======================
+// 2. ATUALIZAR DADOS
+// =======================
+if (isset($_POST['atualizar'])) {
+
+    $nome = $_POST['nome'];
+    $cpf = $_POST['cpf'];
+    $email = $_POST['email'];
+    $cep = $_POST['cep'];
+    $telefone = $_POST['telefone'];
+
+    $update = "UPDATE clientes 
+               SET nome='$nome', cpf='$cpf', email='$email', cep='$cep', telefone='$telefone'
+               WHERE id=$id";
+
+    if(mysqli_query($connect, $update)){
+        $_SESSION['mensagem'] = "Dados atualizados com sucesso!";
+    } else {
+        $_SESSION['mensagem'] = "Erro ao atualizar dados!";
+    }
+
+    header("Location: ../cliente-perfil.php");
+    exit;
+}
+
+
+// =======================
+// 3. ALTERAR SENHA 
+// =======================
+if (isset($_POST['alterar_senha'])) {
+
+    $novaSenha = $_POST['nova_senha'];
+
+    $sqlSenha = "UPDATE clientes SET senha='$novaSenha' WHERE id=$id";
+
+    if(mysqli_query($connect, $sqlSenha)){
+        $_SESSION['mensagem'] = "Senha alterada!";
+    } else {
+        $_SESSION['mensagem'] = "Erro ao alterar senha!";
+    }
+
+    header("Location: cliente-perfil.php");
+    exit;
+}
+
+
+// =======================
+// 4. CARREGAR DADOS DO USUÁRIO
+// =======================
+$sql = "SELECT * FROM clientes WHERE id=$id";
 $result = mysqli_query($connect, $sql);
-$empresa = mysqli_fetch_assoc($result);
+$cliente = mysqli_fetch_assoc($result);
 
-// SE NÃO ACHAR, O USUÁRIO NÃO DEVERIA ESTAR LOGADO
-if (!$empresa) {
-    $_SESSION['mensagem'] = "Erro: empresa não encontrada!";
-    header("Location: login.php");
-    exit;
-}
+
+// // VERIFICAR SE A EMPRESA ESTÁ LOGADA
+// if (!isset($_SESSION['empresa_id'])) {
+//     header("Location: login.php");
+//     exit;
+// }
+
+// $empresa_id = $_SESSION['empresa_id'];
+
+// // BUSCAR INFORMAÇÕES DA EMPRESA
+// $sql = "SELECT * FROM empresa WHERE id = $empresa_id LIMIT 1";
+// $result = mysqli_query($connect, $sql);
+// $empresa = mysqli_fetch_assoc($result);
+
+// // SE NÃO ACHAR, O USUÁRIO NÃO DEVERIA ESTAR LOGADO
+// if (!$empresa) {
+//     $_SESSION['mensagem'] = "Erro: empresa não encontrada!";
+//     header("Location: login.php");
+//     exit;
+// }
+
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -43,9 +112,9 @@ if (!$empresa) {
         </div>
         <nav>
             <ul>
-                <li><a href="cliente-servicos.html">Serviços</a></li>
-                <li><a href="cliente-agenda.html">Agenda</a></li>
-                <li><a href="cliente-perfil.html" class="ativo">Perfil</a></li>
+                <li><a href="cliente-servicos.php">Serviços</a></li>
+                <li><a href="cliente-agenda.php">Agenda</a></li>
+                <li><a href="cliente-perfil.php" class="ativo">Perfil</a></li>
             </ul>
         </nav>
         <!-- <div class="perfil">
@@ -61,7 +130,7 @@ if (!$empresa) {
             <p>Gerencie suas informações pessoais</p>
 
 
-            <form action="cliente-perfil-editar.php" method="POST">
+            <form action="cliente-perfil.php" method="POST">
 
                 <div class="bloco">
                     <h3>Informações Pessoais</h3>
@@ -91,14 +160,6 @@ if (!$empresa) {
                     </div>
 
                     <div class="campo">
-                        <label>CEP</label>
-                        <div class="input-edit">
-                            <input type="text" name="cep" value="<?= $cliente['cep'] ?>" readonly>
-                            <button type="button" class="editar">✎</button>
-                        </div>
-                    </div>
-
-                    <div class="campo">
                         <label>Telefone</label>
                         <div class="input-edit">
                             <input type="text" name="telefone" value="<?= $cliente['telefone'] ?>" readonly>
@@ -115,7 +176,7 @@ if (!$empresa) {
 
 
             <!-- Alterar Senha -->
-            <form action="cliente-perfil-editar.php" method="POST">
+            <form action="cliente-perfil.php" method="POST">
                 <div class="bloco seguranca" class="input-edit">
                     <h3>Segurança</h3>
 

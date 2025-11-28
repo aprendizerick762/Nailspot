@@ -37,8 +37,8 @@ endif;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nailspot | Cadastro Manicure</title>
-    <script src="js/manicure-cadastro.js" defer></script>
     <link rel="stylesheet" href="css/manicure-cadastro.css">
+    <script src="js/manicure-cadastro.js" defer></script>
     <link rel="shortcut icon" href="img/LogoNailspotofc.png">
 
 </head>

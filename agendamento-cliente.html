@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,15 +8,17 @@
   <link rel="shortcut icon" href="img/LogoNailspotofc.png">
 </head>
 <body>
-  <header>
-    <div class="logo">
-  <img src="img/LogoNailspot+.png" alt="Logo NailSpot">
-  <span class="brand">NailSpot</span>
-</div>
+  <header class="navbar">
+      <div class="logo">
+      <img src="img/LogoNailspotofc.png" alt="Logo NailSpot" />
+      <span class="nome-logo">NailSpot</span>
+    </div>
     <nav>
-      <a href="http://127.0.0.1:5500/cliente-servicos.html">Serviços</a>
-      <a href="http://127.0.0.1:5500/cliente-agenda.html" class="active">Agenda</a>
-      <a href="http://127.0.0.1:5500/cliente-perfil.html">Perfil</a>
+      <ul>
+        <li><a href="cliente-servicos.php" class="active">Serviços</a></li>
+        <li><a href="cliente-agenda.php">Agenda</a></li>
+        <li><a href="cliente-perfil.php">Perfil</a></li>
+      </ul>
     </nav>
   </header>
 
@@ -90,12 +92,16 @@
       <input type="tel" placeholder="(00) 00000-0000">
 
       <div class="acoes">
-        <a href="http://127.0.0.1:5500/cliente-servicos.html" class="cancelar">Cancelar</a>
+        <a href="cliente-servicos.php" class="cancelar">Cancelar</a>
         <a href="confirmar.html" class="confirmar">Confirmar Agendamento</a>
       </div>
     </section>
-  </main>
+      
 
+  </main>
+  <footer class="rodape">
+    <p>© 2025 NailSpot - Seu momento de beleza e bem-estar</p>
+  </footer>
   <script>
     // Seleção de horário interativo
     const botoes = document.querySelectorAll(".horarios button");
