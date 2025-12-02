@@ -6,7 +6,7 @@ require "php/mensagem.php";
 // =======================
 // 1. VERIFICA LOGIN
 // =======================
-if(!isset($_SESSION['cliente_id'])){
+if (!isset($_SESSION['cliente_id'])) {
     // Caso não esteja logado, redireciona
     header("Location: login.php");
     exit;
@@ -30,7 +30,7 @@ if (isset($_POST['atualizar'])) {
                SET nome='$nome', cpf='$cpf', email='$email', cep='$cep', telefone='$telefone'
                WHERE id=$id";
 
-    if(mysqli_query($connect, $update)){
+    if (mysqli_query($connect, $update)) {
         $_SESSION['mensagem'] = "Dados atualizados com sucesso!";
     } else {
         $_SESSION['mensagem'] = "Erro ao atualizar dados!";
@@ -46,12 +46,24 @@ if (isset($_POST['atualizar'])) {
 // =======================
 if (isset($_POST['alterar_senha'])) {
 
-    $novaSenha = $_POST['nova_senha'];
+    $novaSenha = trim($_POST['nova_senha']);
 
-    $sqlSenha = "UPDATE clientes SET senha='$novaSenha' WHERE id=$id";
+    // Requisitos da senha
+    $regex = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@!#$%_\-]).{8,}$/";
 
-    if(mysqli_query($connect, $sqlSenha)){
-        $_SESSION['mensagem'] = "Senha alterada!";
+    if (!preg_match($regex, $novaSenha)) {
+        $_SESSION['mensagem'] = "A senha não atende aos requisitos!";
+        header("Location: cliente-perfil.php");
+        exit;
+    }
+
+    // Criptografar senha
+    $senhaHash = password_hash($novaSenha, PASSWORD_DEFAULT);
+
+    $sqlSenha = "UPDATE clientes SET senha='$senhaHash' WHERE id=$id";
+
+    if (mysqli_query($connect, $sqlSenha)) {
+        $_SESSION['mensagem'] = "Senha alterada com sucesso!";
     } else {
         $_SESSION['mensagem'] = "Erro ao alterar senha!";
     }
@@ -59,7 +71,6 @@ if (isset($_POST['alterar_senha'])) {
     header("Location: cliente-perfil.php");
     exit;
 }
-
 
 // =======================
 // 4. CARREGAR DADOS DO USUÁRIO
@@ -115,6 +126,7 @@ $cliente = mysqli_fetch_assoc($result);
                 <li><a href="cliente-servicos.php">Serviços</a></li>
                 <li><a href="cliente-agenda.php">Agenda</a></li>
                 <li><a href="cliente-perfil.php" class="ativo">Perfil</a></li>
+                <li><a href="login.php">Sair</a></li>
             </ul>
         </nav>
         <!-- <div class="perfil">
@@ -174,6 +186,7 @@ $cliente = mysqli_fetch_assoc($result);
                 </div>
             </form>
 
+            
 
             <!-- Alterar Senha -->
             <form action="cliente-perfil.php" method="POST">
@@ -188,7 +201,16 @@ $cliente = mysqli_fetch_assoc($result);
 
                 </div>
             </form>
-
+            <div class="regras-senha">
+                <p>Sua senha deve conter:</p>
+                <ul>
+                    <li>Mínimo 8 caracteres</li>
+                    <li>Letra maiúscula</li>
+                    <li>Letra minúscula</li>
+                    <li>Número</li>
+                    <li>Caractere especial (@!#$%)</li>
+                </ul>
+            </div>
         </section>
     </main>
 
@@ -196,11 +218,17 @@ $cliente = mysqli_fetch_assoc($result);
     <script>
         // Ativar edição
         document.querySelectorAll(".editar").forEach(btn => {
-            btn.addEventListener("click", () => {
-                const input = btn.previousElementSibling;
+            btn.addEventListener("click", function () {
+                const input = this.parentElement.querySelector('input');
                 input.removeAttribute("readonly");
                 input.focus();
+
+                // Mostra o botão salvar
                 document.getElementById("salvar").style.display = "block";
+
+                // Muda a aparência do campo para modo edição
+                input.style.background = "#fff";
+                input.style.borderColor = "#e26ca5";
             });
         });
     </script>

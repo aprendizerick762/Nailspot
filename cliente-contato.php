@@ -1,50 +1,89 @@
+<?php
+  
+session_start();
+require "php/dbconnect.php";
+require "php/mensagem.php";
+
+// =======================
+// 1. VERIFICA LOGIN
+// =======================
+if(!isset($_SESSION['cliente_id'])){
+    // Caso não esteja logado, redireciona
+    header("Location: login.php");
+    exit;
+}
+
+// Verifica se o ID veio pela URL
+if (!isset($_GET['id'])) {
+    die("<h2>Empresa não encontrada.</h2>");
+}
+
+$id = intval($_GET['id']);
+
+// Busca os dados da empresa
+$sql = "SELECT nome, endereco, telefone, cep, horario FROM empresa WHERE id = $id LIMIT 1";
+$result = mysqli_query($connect, $sql);
+
+if (mysqli_num_rows($result) == 0) {
+    die("<h2>Empresa não encontrada.</h2>");
+}
+
+$empresa = mysqli_fetch_assoc($result);
+
+// Se o usuário quiser usar imagem no futuro
+$img = "img/default-empresa.png";
+?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contato - NailSpot</title>
+  <title>Contato - <?= htmlspecialchars($empresa['nome']) ?></title>
   <link rel="stylesheet" href="css/cliente-contato.css">
   <link rel="shortcut icon" href="img/LogoNailspotofc.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
+
 <body>
-  <header class="navbar">
+
+<header class="navbar">
     <div class="logo">
       <img src="img/LogoNailspotofc.png" alt="Logo Nailspot">
       <span class="nome-logo">NailSpot</span>
     </div>
+
     <nav>
       <ul>
-        <li><a href="http://127.0.0.1:5500/cliente-servicos.php" class="ativo">Serviços</a></li>
-        <li><a href="http://127.0.0.1:5500/cliente-agenda.php">Agenda</a></li>
-        <li><a href="http://127.0.0.1:5500/cliente-perfil.php">Perfil</a></li>
+        <li><a href="cliente-servicos.php">Serviços</a></li>
+        <li><a href="cliente-agenda.php">Agenda</a></li>
+        <li><a href="cliente-perfil.php">Perfil</a></li>
+        <li><a href="login.php">Sair</a></li>
       </ul>
     </nav>
-    
-    <!-- um possivel dseign para perfil
-     <div class="perfil">
-      <span>Mirella</span>
-      <span class="perfil-cliente">Perfil Cliente</span>
-      <img src="https://cdn-icons-png.flaticon.com/512/2922/2922506.png" alt="Perfil">
-    </div> -->
-  </header>
+</header>
 
-  <main class="container">
-    <h1>Contato</h1>
+<main class="container">
+    <h1>Contato - <?= htmlspecialchars($empresa['nome']) ?></h1>
     <p class="subtitulo">Entre em contato com o estabelecimento</p>
 
     <section class="conteudo">
+
+      <!-- CARD LADO ESQUERDO - INFORMAÇÕES -->
       <div class="card-contato">
-        <h2>Beleza Pura</h2>
-        <div class="mapa"></div>
+
+        <h2><?= htmlspecialchars($empresa['nome']) ?></h2>
+
+        
 
         <div class="info">
+
           <div class="info-item">
             <span class="icon">📍</span>
             <div>
               <strong>Endereço</strong>
-              <p>Rua das Flores, 123 - Centro<br>São Paulo, SP - CEP 01234-567</p>
+              <p><?= htmlspecialchars($empresa['endereco']) ?><br>
+              CEP: <?= htmlspecialchars($empresa['cep']) ?></p>
             </div>
           </div>
 
@@ -52,7 +91,8 @@
             <span class="icon">📞</span>
             <div>
               <strong>Telefone</strong>
-              <p>(11) 98765-4321<br><small>WhatsApp disponível</small></p>
+              <p><?= htmlspecialchars($empresa['telefone']) ?><br>
+              <small>WhatsApp disponível</small></p>
             </div>
           </div>
 
@@ -60,12 +100,14 @@
             <span class="icon">⏰</span>
             <div>
               <strong>Horário de Funcionamento</strong>
-              <p>Segunda a Sexta: 09:00 - 18:00<br>Sábado: 09:00 - 14:00</p>
+              <p><?= htmlspecialchars($empresa['horario']) ?></p>
             </div>
           </div>
+
         </div>
       </div>
 
+      <!-- CARD DIREITO - MENSAGEM -->
       <div class="card-mensagem">
         <h2>Enviar Mensagem</h2>
 
@@ -79,18 +121,21 @@
         <textarea placeholder="Digite sua mensagem aqui..."></textarea>
 
         <div class="botoes">
-          <button class="botao branco">Voltar</button>
+          <a href="cliente-servicos.php" class="botao branco">Voltar</a>
           <button class="botao rosa">Enviar Mensagem</button>
         </div>
 
         <div class="dica">
-          <strong>Dica:</strong> Para atendimento mais rápido, entre em contato via WhatsApp ou telefone durante o horário de funcionamento.
+          <strong>Dica:</strong> Para atendimento mais rápido, entre em contato via WhatsApp.
         </div>
       </div>
+
     </section>
   </main>
-      <footer class="rodape">
-        <p>© 2025 NailSpot - Seu momento de beleza e bem-estar</p>
-    </footer>
+
+<footer class="rodape">
+  <p>© 2025 NailSpot - Seu momento de beleza e bem-estar</p>
+</footer>
+
 </body>
 </html>

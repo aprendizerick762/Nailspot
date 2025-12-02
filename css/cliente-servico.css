@@ -199,19 +199,26 @@ nav a.ativo {
 
 /* TAGS */
 .tags {
-  display: flex;
-  gap: 10px;
-  margin-top: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 8px 0;
 }
 
 .tags span {
-  padding: 6px 14px;
-  background: #f3e7ff;
-  color: #7a4bb3;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  display: inline-block;
+    background: #ffdde8;
+    color: #d12b78;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1px solid #d12b78;
+}
+
+.tags .sem-servicos {
+    background: #eee;
+    color: #666;
+    border: none;
 }
 
 

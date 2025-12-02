@@ -18,3 +18,93 @@ CREATE TABLE empresa (
     telefone VARCHAR(20),
     endereco VARCHAR(255)
 );
+
+CREATE TABLE empresa (
+id INT AUTO_INCREMENT PRIMARY KEY,
+nome VARCHAR(150) NOT NULL,
+cpf_cnpj VARCHAR(20) NOT NULL UNIQUE,
+email VARCHAR(150) NOT NULL UNIQUE,
+senha VARCHAR(255) NOT NULL,
+cep VARCHAR(20),
+telefone VARCHAR(20),
+endereco VARCHAR(255)
+horario VARCHAR(100),
+preco DECIMAL(10,2) DEFAULT NULL,
+  servicos VARCHAR(255), -- exemplo: "Manicure,Pedicure"
+  imagem VARCHAR(255),    -- caminho para imagem (opcional)
+  criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- (Opcional) tabela separada para serviços se você quiser normalizar
+CREATE TABLE clientes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    cpf VARCHAR(20) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    cep VARCHAR(20),
+    telefone VARCHAR(20),
+    senha VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE servico (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  empresa_id INT NOT NULL,
+  nome VARCHAR(120) NOT NULL,
+  preco DECIMAL(10,2),
+  duracao INT, -- minutos
+  FOREIGN KEY (empresa_id) REFERENCES empresa(id) ON DELETE CASCADE
+);
+
+CREATE TABLE empresa (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(150) NOT NULL,
+    cpf_cnpj VARCHAR(20) NOT NULL UNIQUE,
+    email VARCHAR(150) NOT NULL UNIQUE,
+    senha VARCHAR(255) NOT NULL,
+    cep VARCHAR(20),
+    telefone VARCHAR(20),
+    endereco VARCHAR(255),
+    horario VARCHAR(100),
+    servicos VARCHAR(255),
+    preco DECIMAL(10,2),
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE funcionarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    empresa_id INT NOT NULL,
+    nome VARCHAR(120) NOT NULL,
+    cpf VARCHAR(20) NOT NULL,
+    telefone VARCHAR(20) NOT NULL,
+    email VARCHAR(150) NOT NULL,
+    funcao VARCHAR(20) NOT NULL,
+    FOREIGN KEY (empresa_id) REFERENCES empresa(id) ON DELETE CASCADE
+);
+
+CREATE TABLE empresa_horario_funcionamento (
+    empresa_id INT PRIMARY KEY,
+    abertura TIME,
+    fechamento TIME,
+    FOREIGN KEY (empresa_id) REFERENCES empresa(id) ON DELETE CASCADE
+);
+
+
+CREATE TABLE empresa_horarios_disponiveis (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    empresa_id INT NOT NULL,
+    dia_semana VARCHAR(50) NOT NULL,
+    hora_inicio TIME NOT NULL,
+    hora_fim TIME NOT NULL,
+    FOREIGN KEY (empresa_id) REFERENCES empresa(id) ON DELETE CASCADE
+);
+
+CREATE TABLE agendamentos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    cliente_id INT NOT NULL,
+    empresa_id INT NOT NULL,
+    funcionario_id INT NOT NULL,
+    servicos VARCHAR(255),
+    data DATE,
+    hora TIME,
+    status VARCHAR(20) DEFAULT 'Pendente'
+);

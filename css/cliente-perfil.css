@@ -168,6 +168,23 @@ nav a:hover, nav a.ativo {
     outline: none;
     border-color: #e26ca5;
 }
+.regras-senha {
+    text-align: center;
+    background-color: #fef1f7;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.regras-senha p {
+    font-weight: 500;
+    color: #666;
+}
+
+.regras-senha ul {
+    margin-left: 15px;
+    color: #888;
+}
 
 .editar {
     border: 1px solid #e26ca5;

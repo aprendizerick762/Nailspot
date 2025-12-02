@@ -1,34 +1,61 @@
 <?php
-// Senha sem Criptografia
-//Iniciar Sessão
 session_start();
 
-//Conexão
-require_once 'php/dbconnect.php';
-require_once 'php/mensagem.php';
+// Conexões
+require_once "php/dbconnect.php";
+require_once "php/mensagem.php";
 
-if($_SERVER['REQUEST_METHOD'] === 'POST'):
-    $nome = mysqli_escape_string($connect, $_POST['nome']);
-    $email = mysqli_escape_string($connect, $_POST['email']);
-    $cpf = mysqli_escape_string($connect, $_POST['cpf']);
-    $senha = mysqli_escape_string($connect, $_POST['senha']);
-    
+if ($_SERVER['REQUEST_METHOD'] === 'POST'):
 
-    $sql = "INSERT INTO clientes(nome, email, cpf, senha) VALUES ('$nome', '$email', '$cpf', '$senha')";
-    
-    if(mysqli_query($connect, $sql)):
+    // Sanitização
+    $nome  = mysqli_real_escape_string($connect, $_POST['nome']);
+    $email = mysqli_real_escape_string($connect, $_POST['email']);
+    $cpf   = mysqli_real_escape_string($connect, $_POST['cpf']);
+    $senha = mysqli_real_escape_string($connect, $_POST['senha']);
+    $confirm = mysqli_real_escape_string($connect, $_POST['confirm_senha']);
+
+    // Verificar se senhas são iguais
+    if ($senha !== $confirm) {
+        $_SESSION['mensagem'] = "As senhas não coincidem!";
+        header("Location: cliente-cadastro.php");
+        exit;
+    }
+
+    // Verificar e-mail ou CPF duplicados
+    $check = mysqli_query($connect, 
+        "SELECT id FROM clientes WHERE email='$email' OR cpf='$cpf' LIMIT 1"
+    );
+
+    if (mysqli_num_rows($check) > 0) {
+        $_SESSION['mensagem'] = "E-mail ou CPF já cadastrado!";
+        header("Location: cliente-cadastro.php");
+        exit;
+    }
+
+    // Criptografar senha
+    $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
+
+    // Inserir cliente
+    $sql = "
+        INSERT INTO clientes (nome, email, cpf, senha) 
+        VALUES ('$nome', '$email', '$cpf', '$senhaHash')
+    ";
+
+    if (mysqli_query($connect, $sql)) {
         $_SESSION['mensagem'] = "Cadastro realizado com sucesso!";
-    else:
-        $_SESSION['mensagem'] = "Erro ao cadastrar: " . mysqli_error($connect);        
-    endif;
-    
-    header('Location: cliente-cadastro.php');
+    } else {
+        $_SESSION['mensagem'] = "Erro ao cadastrar: " . mysqli_error($connect);
+    }
+
+    header("Location: cliente-cadastro.php");
     exit;
+
 endif;
 ?>
+
 <!DOCTYPE html>
-<html lang="en">
-    
+<html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,62 +63,62 @@ endif;
     <link rel="stylesheet" href="css/cliente-cadastro.css">
     <link rel="shortcut icon" href="img/LogoNailspotofc.png">
     <script src="js/cliente-cadastro.js" defer></script>
-
 </head>
 
 <body>
-    <?php include "php/mensagem.php"; ?>
-     <header class="navbar">
-        <div class="logo">
-            <img src="img/LogoNailspotofc.png" alt="Logo NailSpot">
-            <span class="nome-logo">NailSpot</span>
+
+<?php include "php/mensagem.php"; ?>
+
+<header class="navbar">
+    <div class="logo">
+        <img src="img/LogoNailspotofc.png" alt="Logo NailSpot">
+        <span class="nome-logo">NailSpot</span>
+    </div>
+</header>
+
+<main class="container">
+    <h1>Cadastro de Cliente</h1>
+    <p>Preencha seus dados para criar sua conta e começar a agendar seus serviços</p>
+
+    <form action="cliente-cadastro.php" method="POST" class="formulario">
+
+        <label>Nome Completo</label>
+        <input type="text" name="nome" id="nome" required>
+
+        <label>E-mail</label>
+        <input type="email" name="email" id="email" required>
+
+        <label>CPF</label>
+        <input type="text" name="cpf" id="cpf" required>
+
+        <label>Senha</label>
+        <input type="password" name="senha" id="senha" required>
+
+        <div class="regras-senha">
+            <p>Sua senha deve conter:</p>
+            <ul>
+                <li>Mínimo 8 caracteres</li>
+                <li>Letra maiúscula</li>
+                <li>Letra minúscula</li>
+                <li>Número</li>
+                <li>Caractere especial (@!#$%)</li>
+            </ul>
         </div>
-    </header>
 
-    <main class="container">
-        <h1>Cadastro de Cliente</h1>
-        <p>Preencha seus dados para criar sua conta e começar a agendar seus serviços</p>
+        <label>Confirmar Senha</label>
+        <input type="password" name="confirm_senha" id="confirm_senha" required>
 
-        <form action="cliente-cadastro.php" method="POST" class="formulario" >
-            <label>Nome Completo</label>
-            <input type="text" name="nome" id="nome" placeholder="EX:. Maria Silva Santos" required>
+        <div class="botoes">
+            <a href="categoria.php" class="btn branco">Voltar</a>
+            <button type="submit" class="btn rosa">Cadastrar</button>
+        </div>
 
-            <label>E-mail</label>
-            <input type="email" name="email" id="email" placeholder="Ex:. meuemail@gmail.com" required>
+    </form>
+</main>
 
-            <label>CPF</label>
-            <input type="text" name="cpf" id="cpf" placeholder="000.000.000-00" required>
-
-            <label>Senha</label>
-            <input type="password" name="senha" id="senha" placeholder="********" required>
-
-            <div class="regras-senha">
-                <p>Sua senha deve conter:</p>
-                <ul>
-                    <li>Mínimo 8 caracteres</li>
-                    <li>Letra maiúscula</li>
-                    <li>Letra minúscula</li>
-                    <li>Número</li>
-                    <li>Caractere especial (@!#$%)</li>
-                </ul>
-            </div>
-
-            <label>Confirmar Senha</label>
-            <input type="password" name="confirm_senha" id="confirm_senha" placeholder="********" required>
-
-            <div class="botoes">
-                <a href="categoria.php" class="btn branco">Voltar</a>
-                <button type="submit" name="btn-cadastrar" class="btn rosa">Cadastrar</button>
-            </div>
-        </form>
-    </main>
-
-
-
-    <footer class="rodape">
-        <p>Estamos felizes em ter você conosco!</p>
-    </footer>
-
+<footer class="rodape">
+    <p>Estamos felizes em ter você conosco!</p>
+</footer>
 
 </body>
 </html>

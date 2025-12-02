@@ -1,3 +1,61 @@
+<?php
+session_start();
+require "php/dbconnect.php";
+
+// Impedir acesso sem login
+if (!isset($_SESSION['funcionario_id'])) {
+    header("Location: login.php");
+    exit;
+}
+
+$funcionario_id = $_SESSION['funcionario_id'];
+
+// ======================================================
+// 1) BUSCAR DADOS DO FUNCIONÁRIO
+// ======================================================
+$sql = "SELECT * FROM funcionarios WHERE id = $funcionario_id LIMIT 1";
+$result = mysqli_query($connect, $sql);
+
+if (!$result || mysqli_num_rows($result) === 0) {
+    die("Erro: Funcionário não encontrado.");
+}
+
+$func = mysqli_fetch_assoc($result);
+
+// ======================================================
+// 2) ATUALIZAR DADOS
+// ======================================================
+if (isset($_POST['salvar_perfil'])) {
+    $nome = mysqli_real_escape_string($connect, $_POST['nome']);
+    $cpf = mysqli_real_escape_string($connect, $_POST['cpf']);
+    $email = mysqli_real_escape_string($connect, $_POST['email']);
+    $telefone = mysqli_real_escape_string($connect, $_POST['telefone']);
+
+    $sqlUpdate = "UPDATE funcionarios 
+                  SET nome='$nome', cpf='$cpf', email='$email', telefone='$telefone'
+                  WHERE id = $funcionario_id";
+
+    mysqli_query($connect, $sqlUpdate);
+
+    header("Location: funcionario-perfil.php?ok=1");
+    exit;
+}
+
+// ======================================================
+// 3) ATUALIZAR SENHA
+// ======================================================
+if (isset($_POST['salvar_senha'])) {
+    $senha = mysqli_real_escape_string($connect, $_POST['senha']);
+
+    // Para segurança, HASH!
+    $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
+
+    mysqli_query($connect, "UPDATE funcionarios SET senha='$senhaHash' WHERE id=$funcionario_id");
+
+    header("Location: funcionario-perfil.php?senha=1");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,106 +66,128 @@
   <link rel="shortcut icon" href="img/LogoNailspotofc.png">
 </head>
 <body>
-  <header class="navbar">
+
+<header class="navbar">
     <div class="logo">
       <img src="img/LogoNailspot+.png" alt="Logo NailSpot">
       <span class="nome-logo">NailSpot</span>
     </div>
     <nav>
       <ul>
-        <li><a href="funcionario-home.html">Home</a></li>
-        <li><a href="funcionario-perfil.html" class="ativo">Perfil</a></li>
+        <li><a href="funcionario-home.php">Home</a></li>
+        <li><a href="funcionario-perfil.php" class="ativo">Perfil</a></li>
+        <li><a href="login.php">Sair</a></li>
       </ul>
     </nav>
-  </header>
+</header>
 
-  <main class="conteudo">
-    <section class="card">
-      <h2>Dados Pessoais</h2>
-      <form id="form-perfil">
-        <div class="form-group">
-          <label for="nome">Nome Completo</label>
-          <input type="text" id="nome" value="Maria Oliveira" required>
-        </div>
+<main class="conteudo">
 
-        <div class="form-group">
-          <label for="cpf">CPF</label>
-          <input type="text" id="cpf" value="123.456.789-00" required>
-        </div>
+<?php if(isset($_GET['ok'])): ?>
+  <div class="alert-sucesso">Dados atualizados com sucesso!</div>
+<?php endif; ?>
 
-        <div class="form-group">
-          <label for="email">E-mail</label>
-          <input type="email" id="email" value="maria@nailspot.com" required>
-        </div>
+<?php if(isset($_GET['senha'])): ?>
+  <div class="alert-sucesso">Senha alterada com sucesso!</div>
+<?php endif; ?>
 
-        <div class="form-group">
-          <label for="telefone">Telefone</label>
-          <input type="text" id="telefone" value="(11) 98765-4321" required>
-        </div>
+<section class="card">
+  <h2>Dados Pessoais</h2>
+  <form id="form-perfil" method="POST">
 
-        <button type="submit" class="btn-principal">Salvar Alterações</button>
-      </form>
-    </section>
-
-    <section class="card">
-      <h2>Segurança</h2>
-      <button class="btn-principal" id="btn-alterar-senha">Alterar Senha</button>
-    </section>
-  </main>
-
-  <!-- Modal de alterar senha -->
-  <div id="modal-senha" class="modal">
-    <div class="modal-conteudo">
-      <h3>Alterar Senha</h3>
-      <form id="form-senha">
-        <div class="form-group">
-          <label for="nova-senha">Nova Senha:</label>
-          <input type="password" id="nova-senha" required>
-        </div>
-        <div class="form-group">
-          <label for="confirmar-senha">Confirmar Senha:</label>
-          <input type="password" id="confirmar-senha" required>
-        </div>
-        <div class="botoes-modal">
-          <button type="submit" class="btn-principal">Salvar</button>
-          <button type="button" class="btn-cancelar" id="fechar-modal">Cancelar</button>
-        </div>
-      </form>
+    <div class="form-group">
+      <label for="nome">Nome Completo</label>
+      <input type="text" id="nome" name="nome" value="<?= $func['nome'] ?>" required>
     </div>
+
+    <div class="form-group">
+      <label for="cpf">CPF</label>
+      <input type="text" id="cpf" name="cpf" value="<?= $func['cpf'] ?>" required>
+    </div>
+
+    <div class="form-group">
+      <label for="email">E-mail</label>
+      <input type="email" id="email" name="email" value="<?= $func['email'] ?>" required>
+    </div>
+
+    <div class="form-group">
+      <label for="telefone">Telefone</label>
+      <input type="text" id="telefone" name="telefone" value="<?= $func['telefone'] ?>" required>
+    </div>
+
+    <button type="submit" name="salvar_perfil" class="btn-principal">
+      Salvar Alterações
+    </button>
+
+  </form>
+</section>
+
+<section class="card">
+  <h2>Segurança</h2>
+  <button class="btn-principal" id="btn-alterar-senha">Alterar Senha</button>
+</section>
+
+</main>
+
+<!-- Modal de alterar senha -->
+<div id="modal-senha" class="modal">
+  <div class="modal-conteudo">
+    <h3>Alterar Senha</h3>
+
+    <form id="form-senha" method="POST">
+
+      <div class="form-group">
+        <label for="nova-senha">Nova Senha:</label>
+        <input type="password" id="nova-senha" required>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmar-senha">Confirmar Senha:</label>
+        <input type="password" id="confirmar-senha" required>
+      </div>
+
+      <input type="hidden" name="senha" id="senha_real">
+      <button type="submit" name="salvar_senha" class="btn-principal">Salvar</button>
+
+      <button type="button" class="btn-cancelar" id="fechar-modal">
+        Cancelar
+      </button>
+    </form>
+
   </div>
+</div>
 
-  <footer class="rodape">
-    <p>© 2025 NailSpot - Seu momento de beleza e bem-estar</p>
-  </footer>
+<footer class="rodape">
+  <p>© 2025 NailSpot - Seu momento de beleza e bem-estar</p>
+</footer>
 
-  <script>
-    document.getElementById('form-perfil').addEventListener('submit', function(e){
-      e.preventDefault();
-      alert("Dados salvos com sucesso!");
-    });
+<script>
+// Abrir modal
+document.getElementById('btn-alterar-senha').addEventListener('click', () => {
+  document.getElementById('modal-senha').classList.add('mostrar');
+});
 
-    document.getElementById('btn-alterar-senha').addEventListener('click', () => {
-      document.getElementById('modal-senha').classList.add('mostrar');
-    });
+// Fechar modal
+document.getElementById('fechar-modal').addEventListener('click', () => {
+  document.getElementById('modal-senha').classList.remove('mostrar');
+});
 
-    document.getElementById('fechar-modal').addEventListener('click', () => {
-      document.getElementById('modal-senha').classList.remove('mostrar');
-    });
+// Validar e enviar alteração de senha
+document.getElementById('form-senha').addEventListener('submit', e => {
+  e.preventDefault();
 
-    document.getElementById('form-senha').addEventListener('submit', e => {
-      e.preventDefault();
-      const nova = document.getElementById('nova-senha').value;
-      const confirmar = document.getElementById('confirmar-senha').value;
+  const nova = document.getElementById('nova-senha').value;
+  const confirmar = document.getElementById('confirmar-senha').value;
 
-      if(nova !== confirmar){
-        alert('As senhas não coincidem!');
-        return;
-      }
+  if(nova !== confirmar){
+    alert('As senhas não coincidem!');
+    return;
+  }
 
-      alert('Senha alterada com sucesso!');
-      document.getElementById('modal-senha').classList.remove('mostrar');
-      e.target.reset();
-    });
-  </script>
+  document.getElementById('senha_real').value = nova;
+  e.target.submit();
+});
+</script>
+
 </body>
 </html>

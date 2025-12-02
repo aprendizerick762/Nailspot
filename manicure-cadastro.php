@@ -1,23 +1,54 @@
 <?php
-
-// Senha sem Criptografia
-//Iniciar Sessão
 session_start();
-
-//Conexão
 require_once 'php/dbconnect.php';
 require_once 'php/mensagem.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST'):
-    $nome = mysqli_escape_string($connect, $_POST['nome']);
-    $email = mysqli_escape_string($connect, $_POST['email']);
-    $cpf_cnpj = mysqli_escape_string($connect, $_POST['cpf_cnpj']);
-    $cep = mysqli_escape_string($connect, $_POST['cep']);
-    $telefone = mysqli_escape_string($connect, $_POST['telefone']);
-    $senha = mysqli_escape_string($connect, $_POST['senha']);
 
+    // Sanitização
+    $nome      = mysqli_real_escape_string($connect, $_POST['nome']);
+    $email     = mysqli_real_escape_string($connect, $_POST['email']);
+    $cpf_cnpj  = mysqli_real_escape_string($connect, $_POST['cpf_cnpj']);
+    $cep       = mysqli_real_escape_string($connect, $_POST['cep']);
+    $telefone  = mysqli_real_escape_string($connect, $_POST['telefone']);
+    $endereco  = mysqli_real_escape_string($connect, $_POST['endereco']);
+    $senha     = mysqli_real_escape_string($connect, $_POST['senha']);
+    $confirm   = mysqli_real_escape_string($connect, $_POST['confirm_senha']);
 
-    $sql = "INSERT INTO empresa(nome, email, cpf_cnpj, cep, telefone, senha) VALUES ('$nome', '$email', '$cpf_cnpj','$cep','$telefone','$senha')";
+    // ===============================
+    // ✔ FILTRO DE VALIDAÇÃO (REQUIRED)
+    // ===============================
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $_SESSION['mensagem'] = "E-mail inválido!";
+        header("Location: manicure-cadastro.php");
+        exit;
+    }
+
+    // Verifica senhas
+    if ($senha !== $confirm) {
+        $_SESSION['mensagem'] = "As senhas não coincidem!";
+        header("Location: manicure-cadastro.php");
+        exit;
+    }
+
+    // Verificar se e-mail ou CPF já existem
+    $check = mysqli_query($connect, "SELECT id FROM empresa WHERE email='$email' OR cpf_cnpj='$cpf_cnpj' LIMIT 1");
+    if (mysqli_num_rows($check) > 0) {
+        $_SESSION['mensagem'] = "E-mail ou CPF/CNPJ já cadastrado!";
+        header("Location: manicure-cadastro.php");
+        exit;
+    }
+
+    // Gera hash da senha
+    $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
+
+    $servicos = mysqli_real_escape_string($connect, $_POST['servicos']);
+
+    // Inserção
+    $sql = "
+    INSERT INTO empresa (nome, email, cpf_cnpj, cep, telefone, endereco, senha, servicos)
+    VALUES ('$nome', '$email', '$cpf_cnpj', '$cep', '$telefone', '$endereco', '$senhaHash', '$servicos')
+";
 
     if (mysqli_query($connect, $sql)):
         $_SESSION['mensagem'] = "Cadastro realizado com sucesso!";
@@ -27,11 +58,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'):
 
     header('Location: manicure-cadastro.php');
     exit;
+
 endif;
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
@@ -40,22 +72,30 @@ endif;
     <link rel="stylesheet" href="css/manicure-cadastro.css">
     <script src="js/manicure-cadastro.js" defer></script>
     <link rel="shortcut icon" href="img/LogoNailspotofc.png">
-
 </head>
 
 <body>
+
     <header class="topo">
         <div class="logo">
             <img src="img/LogoNailspotofc.png" alt="Logo NailSpot">
             <span class="nome">NailSpot</span>
         </div>
     </header>
+
     <main class="container">
+
+        <?php if (isset($_SESSION['mensagem'])): ?>
+            <p class="alert"><?= $_SESSION['mensagem'];
+            unset($_SESSION['mensagem']); ?></p>
+        <?php endif; ?>
+
         <h1>Cadastro de Manicure</h1>
         <p>Cadastre seu salão e comece a receber agendamentos de clientes</p>
 
         <form action="manicure-cadastro.php" method="POST" class="formulario">
-            <label for="name">Nome / Razão Social</label>
+
+            <label for="nome">Nome / Razão Social</label>
             <input type="text" id="nome" name="nome" placeholder="Ex:. Maria Silva Santos" required>
 
             <label for="email">E-mail</label>
@@ -68,9 +108,29 @@ endif;
             <input type="text" id="cep" name="cep" placeholder="00000-000" pattern="\d{5}-?\d{3}" required>
 
             <label for="telefone">Telefone</label>
-            <input type="text" id="telefone" name="telefone" placeholder="(00)00000-000"
-                pattern="\(\d{2}\)\s?\d{4,5}-\d{4}" required>
+            <input type="text" id="telefone" name="telefone" placeholder="(11) 90000-0000" required>
 
+            <label for="endereco">Endereço</label>
+            <input type="text" id="endereco" name="endereco" placeholder="Ex:. Rua Verstappen Lopes" required>
+            <br><br>
+            <label>Serviços Oferecidos</label>
+            <div class="servicos-opcoes">
+                <label>
+                    <input type="radio" name="servicos" value="Manicure" required>
+                    Manicure
+                </label>
+
+                <label>
+                    <input type="radio" name="servicos" value="Pedicure" required>
+                    Pedicure
+                </label>
+
+                <label>
+                    <input type="radio" name="servicos" value="Manicure, Pedicure" required>
+                    Ambos
+                </label>
+            </div>
+            <br><br>
             <label for="senha">Senha</label>
             <input type="password" id="senha" name="senha" placeholder="********" required>
 
@@ -88,19 +148,17 @@ endif;
             <label for="confirm_senha">Confirmar Senha</label>
             <input type="password" id="confirm_senha" name="confirm_senha" placeholder="********" required>
 
-
-
             <div class="botoes">
                 <a href="categoria.php" class="btn branco">Voltar</a>
-                <button type="submit" name="btn-cadastrar" class="btn rosa">Cadastrar</button>
+                <button type="submit" class="btn rosa">Cadastrar</button>
             </div>
+
         </form>
     </main>
 
     <footer class="rodape">
         <p>Estamos felizes em ter você conosco!</p>
     </footer>
-
 
 </body>
 

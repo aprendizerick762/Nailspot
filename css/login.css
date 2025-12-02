@@ -181,6 +181,37 @@ body {
     color: #e26ca5;
 }
 
+.login-tipo-box {
+    margin-top: 15px;
+    margin-bottom: 20px;
+    padding: 12px;
+    background: #f8f8f8;
+    border-radius: 10px;
+    border: 1px solid #e3e3e3;
+}
+
+.login-tipo-box .titulo-tipo {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.radio-opcao {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #444;
+    cursor: pointer;
+}
+
+.radio-opcao input[type="radio"] {
+    accent-color: #e26ca5; /* rosa NailSpot */
+    transform: scale(1.2);
+}
+
 /* Responsividade */
 @media (max-width: 480px) {
     .card {
