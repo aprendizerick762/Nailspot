@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'):
         $_SESSION['mensagem'] = "Erro ao cadastrar: " . mysqli_error($connect);
     endif;
 
-    header('Location: manicure-cadastro.php');
+    header('Location: login.php');
     exit;
 
 endif;

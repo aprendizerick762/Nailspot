@@ -41,7 +41,7 @@
             </div>
 
             <div class="botoes" >
-                <a href="login.html" class="btn branco">Voltar</a>
+                <a href="login.php" class="btn branco">Voltar</a>
                 <button type="submit" class="btn rosa">Confirmar</button>
             </div>
         </form>

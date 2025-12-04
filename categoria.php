@@ -32,7 +32,7 @@
       </label>
       <div class="botoes">
         <button type="submit" class="botao rosa">OK</button>
-        <a href="index.html" class="botao branco">Voltar</a>
+        <a href="index.php" class="botao branco">Voltar</a>
       </div>
     </form>
   </main>

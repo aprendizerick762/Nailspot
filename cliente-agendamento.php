@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!$stmt) {
         $_SESSION['mensagem'] = "Erro no banco: " . mysqli_error($connect);
-        header("Location: cliente-agendar.php?id=" . $empresa_id);
+        header("Location: cliente-agenda.php?id=" . $empresa_id);
         exit;
     }
 
@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         mysqli_stmt_close($stmt);
 
         // Redireciona para a agenda do cliente
-        header("Location: cliente-agenda.php");
+        header("Location: cliente-agenda.php?id=" . $empresa_id);
         exit;
     } else {
         $_SESSION['mensagem'] = "Erro ao salvar agendamento: " . mysqli_stmt_error($stmt);
@@ -251,7 +251,7 @@ $cliente_email_sess = $_SESSION['cliente_email'] ?? '';
 
       <div class="acoes">
         <a href="cliente-servicos.php" class="cancelar">Cancelar</a>
-        <button type="submit" class="confirmar">Confirmar Agendamento</button>
+        <button type="submit" class="confirmar" >Confirmar Agendamento</button>
       </div>
     </form>
   </section>

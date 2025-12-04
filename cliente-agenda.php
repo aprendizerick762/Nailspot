@@ -1,4 +1,8 @@
 <?php
+// DEBUG (apenas em DEV; remova em produção)
+// ini_set('display_errors', 1);
+// error_reporting(E_ALL);
+
 session_start();
 require "php/dbconnect.php";
 require "php/mensagem.php";
@@ -6,63 +10,100 @@ require "php/mensagem.php";
 // =======================
 // VERIFICA LOGIN
 // =======================
-if(!isset($_SESSION['cliente_id'])){
+if (!isset($_SESSION['cliente_id'])) {
     header("Location: login.php");
     exit;
 }
 
-$cliente_id = $_SESSION["cliente_id"];
+$cliente_id = intval($_SESSION["cliente_id"]); // força inteiro
 
 // =======================
-// BUSCAR AGENDAMENTOS DO CLIENTE
+// BUSCAR AGENDAMENTOS DO CLIENTE (Prepared Statement)
 // =======================
-$sql = "SELECT 
-            ag.id,
-            ag.data,
-            ag.hora,
-            ag.servicos,
-            ag.status,
-            emp.nome AS empresa,
-            func.nome AS profissional
-        FROM agendamentos AS ag
-        INNER JOIN empresa AS emp ON ag.empresa_id = emp.id
-        INNER JOIN funcionarios AS func ON ag.funcionario_id = func.id
-        WHERE ag.cliente_id = $cliente_id
-        ORDER BY ag.data ASC";
+// Usar prepared statement evita problemas se o cliente_id tivesse vindo de fonte externa.
+$sql = "
+    SELECT 
+        ag.id,
+        ag.data,
+        ag.hora,
+        ag.servicos,
+        ag.status,
+        emp.nome AS empresa,
+        func.nome AS profissional
+    FROM agendamentos AS ag
+    INNER JOIN empresa AS emp ON ag.empresa_id = emp.id
+    LEFT JOIN funcionarios AS func ON ag.funcionario_id = func.id
+    WHERE ag.cliente_id = ?
+    ORDER BY ag.data ASC
+";
 
-$rs = mysqli_query($connect, $sql);
-
-// ARRAY DE EVENTOS PARA O CALENDÁRIO
 $eventos = [];
 
-while ($a = mysqli_fetch_assoc($rs)) {
+// Preparar e executar
+if ($stmt = mysqli_prepare($connect, $sql)) {
+    mysqli_stmt_bind_param($stmt, "i", $cliente_id);
+    if (mysqli_stmt_execute($stmt)) {
+        $res = mysqli_stmt_get_result($stmt);
+        if ($res !== false) {
+            while ($a = mysqli_fetch_assoc($res)) {
 
-    // Formato MM/DD/YYYY para o calendário
-    $dataFormatada = date("m/d/Y", strtotime($a["data"]));
+                // proteger valores que virão para o HTML (evita quebra de JSON/JS)
+                $empresa = htmlspecialchars($a['empresa'] ?? ' — ');
+                $profissional = htmlspecialchars($a['profissional'] ?? ' — ');
+                $servicos = htmlspecialchars($a['servicos'] ?? ' — ');
+                $status = htmlspecialchars($a['status'] ?? ' — ');
+                $hora = $a['hora'] ?? '';
 
-    $eventos[] = [
-        "id" => "ag-" . $a["id"],
-        "name" => "Agendamento",
-        "date" => $dataFormatada,
-        "type" => "event",
-        "description" => "
-            <div class='caixa-servico'>
-              <h3>Agendamento</h3>
-              <p><strong>Local:</strong> {$a['empresa']}</p>
-              <p><strong>Horário:</strong> {$a['hora']}</p>
-              <p><strong>Serviço:</strong> {$a['servicos']}</p>
-              <p><strong>Profissional:</strong> {$a['profissional']}</p>
-              <p><strong>Status:</strong> {$a['status']}</p>
+                // Data: validar antes de converter
+                $dataRaw = $a['data'] ?? null;
+                if ($dataRaw && strtotime($dataRaw) !== false) {
+                    // formato ISO YYYY-MM-DD (mais compatível)
+                    $dataFormatada = date("Y-m-d", strtotime($dataRaw));
+                } else {
+                    // pula registro inválido ou define uma data fallback
+                    continue; // pula este agendamento
+                }
 
-              <div class='botoes-servico'>
-                <button class='btn-remarcar' data-id='{$a['id']}'>Remarcar</button>
-                <button class='btn-excluir' data-id='{$a['id']}'>Cancelar</button>
-              </div>
-            </div>
-        "
-    ];
+                // montar descrição (contendo HTML) — como contém HTML, mantivemos tags,
+                // mas os valores inseridos já foram escapados com htmlspecialchars acima.
+                $descricao = "
+                    <div class='caixa-servico'>
+                      <h3>Agendamento</h3>
+                      <p><strong>Local:</strong> {$empresa}</p>
+                      <p><strong>Horário:</strong> {$hora}</p>
+                      <p><strong>Serviço:</strong> {$servicos}</p>
+                      <p><strong>Profissional:</strong> {$profissional}</p>
+                      <p><strong>Status:</strong> {$status}</p>
+                      <div class='botoes-servico'>
+                        <button class='btn-remarcar' data-id='{$a['id']}'>Remarcar</button>
+                        <button class='btn-excluir' data-id='{$a['id']}'>Cancelar</button>
+                      </div>
+                    </div>
+                ";
+
+                $eventos[] = [
+                    "id" => "ag-" . $a['id'],
+                    "name" => "Agendamento",
+                    "date" => $dataFormatada,
+                    "type" => "event",
+                    "description" => $descricao
+                ];
+            }
+            mysqli_free_result($res);
+        } else {
+            // erro ao obter resultado
+            error_log("Erro mysqli_stmt_get_result: " . mysqli_error($connect));
+        }
+    } else {
+        error_log("Erro ao executar statement: " . mysqli_stmt_error($stmt));
+    }
+    mysqli_stmt_close($stmt);
+} else {
+    // erro ao preparar
+    error_log("Erro ao preparar SQL: " . mysqli_error($connect));
 }
 
+// ok: $eventos pronto para json_encode
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -77,21 +118,7 @@ while ($a = mysqli_fetch_assoc($rs)) {
 
 <body>
 
-<header class="navbar">
-  <div class="logo">
-    <img src="img/LogoNailspotofc.png" alt="Logo NailSpot" />
-    <span class="nome-logo">NailSpot</span>
-  </div>
-
-  <nav>
-    <ul>
-      <li><a href="cliente-servicos.php">Serviços</a></li>
-      <li><a href="cliente-agenda.php" class="ativo">Agenda</a></li>
-      <li><a href="cliente-perfil.php">Perfil</a></li>
-      <li><a href="login.php">Sair</a></li>
-    </ul>
-  </nav>
-</header>
+<?php include_once 'inc/header.php'; ?>
 
 <h1>Minha Agenda</h1>
 

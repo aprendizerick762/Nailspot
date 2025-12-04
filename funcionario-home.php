@@ -47,7 +47,7 @@ $agendamentos = mysqli_query($connect, $sql);
 
 <header class="navbar">
     <div class="logo">
-      <img src="img/LogoNailspot+.png" alt="Logo NailSpot">
+      <img src="img/LogoNailspotofc.png" alt="Logo NailSpot">
       <span class="nome-logo">NailSpot</span>
     </div>
     <nav>

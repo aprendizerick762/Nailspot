@@ -38,6 +38,7 @@ $empresas = mysqli_query($connect, $sql);
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>NailSpot | Serviços</title>
   <link rel="stylesheet" href="css/cliente-servico.css">
+  <link rel="shortcut icon" href="img/LogoNailspotofc.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
