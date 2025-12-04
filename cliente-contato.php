@@ -30,8 +30,7 @@ if (mysqli_num_rows($result) == 0) {
 
 $empresa = mysqli_fetch_assoc($result);
 
-// Se o usuário quiser usar imagem no futuro
-$img = "img/default-empresa.png";
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">

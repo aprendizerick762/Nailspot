@@ -2,9 +2,7 @@
 session_start();
 require "php/dbconnect.php";
 
-/* Ativar erros para debug (remover depois) */
-ini_set("display_errors", 1);
-error_reporting(E_ALL);
+
 
 if (!isset($_SESSION['empresa_id'])) {
     header("Location: login.php");

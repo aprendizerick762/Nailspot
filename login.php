@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     /* ============================================================
-       LOGIN COMO CLIENTE  ✔ Agora usando password_verify()
+       LOGIN COMO CLIENTE  
     ============================================================ */
     if ($tipo === "cliente") {
 
@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     /* ============================================================
-       LOGIN COMO EMPRESA  ✔ Já funcionava com hash
+       LOGIN COMO EMPRESA 
     ============================================================ */
     if ($tipo === "empresa") {
 
@@ -70,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     /* ============================================================
-       LOGIN COMO FUNCIONÁRIO  ✔ Agora também com senha hash
+       LOGIN COMO FUNCIONÁRIO 
     ============================================================ */
     if ($tipo === "funcionario") {
 
@@ -84,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             exit;
         }
 
-        // // Também usando hash agora
+        // //
         // if (!password_verify($senha, $func['senha'])) {
         //     $_SESSION['mensagem'] = "Senha incorreta!";
         //     header("Location: login.php");
@@ -99,9 +99,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
 
-    /* ============================================================
-       SE NADA SE ENCAIXA → ERRO
-    ============================================================ */
     $_SESSION['mensagem'] = "Erro inesperado no login!";
     header("Location: login.php");
     exit;

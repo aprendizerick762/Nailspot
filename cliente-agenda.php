@@ -102,8 +102,6 @@ if ($stmt = mysqli_prepare($connect, $sql)) {
     // erro ao preparar
     error_log("Erro ao preparar SQL: " . mysqli_error($connect));
 }
-
-// ok: $eventos pronto para json_encode
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">

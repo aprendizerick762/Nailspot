@@ -94,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: cliente-agenda.php?id=" . $empresa_id);
         exit;
     }
-} // fim POST
+} 
 
 // =========================
 // 2. EXIBIÇÃO DO FORM (GET)
@@ -145,11 +145,11 @@ mysqli_stmt_execute($stmtH);
 $horarios_res = mysqli_stmt_get_result($stmtH);
 mysqli_stmt_close($stmtH);
 
-// Preencher nome/email do cliente a partir da sessão ou do BD (se desejar)
+// Preencher nome/email do cliente a partir da sessão ou do BD
 $cliente_nome_sess = $_SESSION['cliente_nome'] ?? '';
 $cliente_email_sess = $_SESSION['cliente_email'] ?? '';
 
-// HTML abaixo (form)
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">

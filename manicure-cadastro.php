@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'):
     $confirm   = mysqli_real_escape_string($connect, $_POST['confirm_senha']);
 
     // ===============================
-    // ✔ FILTRO DE VALIDAÇÃO (REQUIRED)
+    // filtro de validação
     // ===============================
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $_SESSION['mensagem'] = "E-mail inválido!";

@@ -11,7 +11,7 @@ if (!isset($_SESSION['cliente_id'])) {
   exit;
 }
 
-// NOVA CONSULTA COM JOIN DO HORÁRIO
+// CONSULTA COM JOIN DO HORÁRIO
 $sql = "SELECT 
             empresa.id,
             empresa.nome,
